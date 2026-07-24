@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hand-Object Interaction in the Age of Large Foundation Models</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#contributions">Contributions</a>
+      <a href="#taxonomy">Taxonomy</a>
+      <a href="#embodied">Embodied Transfer</a>
+      <a href="#challenges">Challenges</a>
+      <a href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <p class="tag">Survey · Hand-Object Interaction · Embodied Intelligence</p>
+    <h1>Hand-Object Interaction in the Age of Large Foundation Models:<br>Reconstruction, Generation, and Embodied Transfer</h1>
+    <div class="authors">
+      <a href="https://scholar.google.com/citations?user=Fgs4GbgAAAAJ&hl=zh-CN">Weiquan Lin</a><sup>1,2</sup> &nbsp;
+      <a href="https://yudeng.github.io/">Yu Deng</a><sup>3</sup> &nbsp;
+      <a href="https://scholar.google.com.hk/citations?user=a0sN8ZoAAAAJ&hl=zh-CN">Shiyang Liu</a><sup>2</sup> &nbsp;
+      <span class="author-plain">Luping Xiao<sup>2</sup></span> &nbsp;
+      <a href="https://scholar.google.com/citations?hl=zh-CN&user=lmskeBMAAAAJ">Xu Tang</a><sup>1</sup> &nbsp;
+      <a href="https://ieeexplore.ieee.org/author/37278401500">Junzhi Yu</a><sup>4</sup> &nbsp;
+      <a href="https://jlyang.org/">Jiaolong Yang</a><sup>3</sup> &nbsp;
+      <a href="https://www.leizhang.org/">Lei Zhang</a><sup>5</sup> &nbsp;
+      <a href="https://seanchenxy.github.io/">Xingyu Chen</a><sup>2</sup><span class="corr-mark">*</span>
+    </div>
+    <div class="affils">
+      <sup>1</sup>Xidian University &nbsp;
+      <sup>2</sup>Zhongguancun Academy &nbsp;
+      <sup>3</sup>Microsoft Research Asia &nbsp;
+      <sup>4</sup>Peking University &nbsp;
+      <sup>5</sup>Visincept
+    </div>
+    <div class="corr-note"><span class="corr-mark">*</span> Corresponding author</div>
+    <div class="buttons">
+      <a href="https://arxiv.org/abs/2605.17354" class="btn btn-primary">📄 arXiv</a>
+      <a href="https://github.com/SeanChenxy/Hand3DResearch/tree/hoi-survey" class="btn btn-secondary">💻 Code</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">2</div><div class="stat-label">HOI Tasks</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Prior Families</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Embodied Transfer Directions</div></div>
+      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Methods Surveyed</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">Open Challenges</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section id="abstract" class="section">
+  <div class="container">
+    <h2>Abstract</h2>
+    <p class="abstract-text">
+      Hand-object interaction (HOI) modeling remains challenging because it requires joint reasoning about geometry, appearance, and dynamics under visual uncertainty. Foundation models introduce transferable prior knowledge learned from large-scale cross-domain data, offering new ways to address these challenges beyond task-specific data and models. However, the rapidly growing literature remains fragmented, and existing studies typically describe these methods simply as "using large models" without systematically characterizing what knowledge is introduced, where it enters the HOI pipeline, or how it benefits different HOI tasks. This survey presents the first systematic review of prior-driven HOI in the foundation-model era. We establish a general taxonomy of foundation-model knowledge consisting of geometric, semantic, and visual priors, and systematically analyze how different priors are represented, injected, and adapted across HOI pipelines and tasks. Beyond how foundation models empower HOI, we further examine how HOI-derived knowledge is used in robot learning. Finally, we summarize existing benchmarks and evaluation protocols, and discuss the limitations and future directions toward general-purpose HOI foundation systems.
+    </p>
+    <figure class="figure-teaser">
+      <img src="images/teaser.png" alt="Teaser overview">
+      <figcaption>Overview of this survey. Six HOI tasks (reconstruction & generation) are supported by three families of foundation-model priors. The resulting HOI knowledge further enables embodied transfer.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Contributions -->
+<section id="contributions" class="section section-alt">
+  <div class="container">
+    <h2>Key Contributions</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">TAXONOMY</div>
+        <h3>Prior-Driven Knowledge Taxonomy</h3>
+        <p>The first unified framework that organizes HOI methods by the <em>type of foundation-model prior</em> they inject, geometric, semantic, and visual, rather than by task or architecture, revealing what cross-domain knowledge is introduced and which uncertainty it reduces.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">ANALYSIS</div>
+        <h3>Prior Injection Mechanisms</h3>
+        <p>A systematic decomposition of how priors enter the HOI pipeline, through shape initialization, asset retrieval, token fusion, region conditioning, interaction-semantic conditioning, and weight adaptation, tracing the source, injected representation, and residual limitation of each.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">TRANSFER</div>
+        <h3>HOI-to-Robot Embodied Transfer</h3>
+        <p>A bridge from visual HOI analysis to embodied intelligence, organizing how human hand-object evidence flows into robot learning through human-data pretraining, human-to-robot skill transfer, and HOI-to-robot data engines.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Taxonomy -->
+<section id="taxonomy" class="section">
+  <div class="container">
+    <h2>A Taxonomy of Foundation-Model Priors</h2>
+    <p class="section-intro">
+      We organize foundation-model knowledge into three families, <strong>geometric</strong>, <strong>semantic</strong>, and <strong>visual</strong> priors, each addressing a distinct class of HOI uncertainty. These priors do not redefine the HOI task; they inject cross-domain knowledge at different stages of a shared hand-object pipeline.
+    </p>
+    <figure class="figure-main">
+      <img src="images/priors-sections-tasks-hmi.png" alt="Taxonomy roadmap">
+      <figcaption>Taxonomy roadmap: three prior families decomposed into sub-priors and linked to HOI reconstruction and generation tasks.</figcaption>
+    </figure>
+
+    <div class="cards cards-prior">
+      <div class="card card-geo">
+        <div class="card-label">GEOMETRIC PRIORS</div>
+        <h3>Shape · Retrieval · Spatial</h3>
+        <p>Reduce shape and spatial uncertainty via single-image-to-3D generation, asset retrieval from 3D libraries, and monocular spatial reconstruction (depth, point maps, camera alignment).</p>
+        <img src="images/3d-geometry-priors-inject.png" alt="Geometric priors injection">
+      </div>
+      <div class="card card-sem">
+        <div class="card-label">SEMANTIC PRIORS</div>
+        <h3>Grounding · Language Reasoning</h3>
+        <p>Localize functional regions and infer interaction intent through open-vocabulary grounding and language reasoning, distinguishing visually similar but functionally different manipulations.</p>
+        <img src="images/semantic-priors-inject.png" alt="Semantic priors injection">
+      </div>
+      <div class="card card-vis">
+        <div class="card-label">VISUAL PRIORS</div>
+        <h3>Image · Video Generation</h3>
+        <p>Provide distributions over appearance, temporal coherence, and interaction dynamics via pretrained image and video generators, extending toward action-conditioned HOI world models.</p>
+        <img src="images/visual-motion-generation-priors-inject.png" alt="Visual priors injection">
+      </div>
+    </div>
+
+    <figure class="figure-main">
+      <img src="images/traditional-foundation-comparison-hmi.png" alt="Residual uncertainties and interventions">
+      <figcaption>Residual HOI uncertainties left by conventional components and the corresponding foundation-prior interventions.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Embodied Transfer -->
+<section id="embodied" class="section section-alt">
+  <div class="container">
+    <h2>From HOI to Embodied Intelligence</h2>
+    <p class="section-intro">
+      Beyond reconstruction and generation, we examine how HOI-derived knowledge transfers to robot learning along three directions: <strong>human-data pretraining</strong>, <strong>human-to-robot skill transfer</strong>, and <strong>HOI-to-robot data engines</strong>.
+    </p>
+    <figure class="figure-main">
+      <img src="images/HOI-for-robot.png" alt="Embodied transfer routes">
+      <figcaption>Five routes by which HOI evidence becomes robot-learning supervision, target-skill guidance, or reusable robot training data.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Challenges -->
+<section id="challenges" class="section">
+  <div class="container">
+    <h2>Open Challenges &amp; Future Directions</h2>
+    <div class="challenges">
+      <div class="challenge">
+        <div class="challenge-num">01</div>
+        <div class="challenge-body">
+          <h3>Toward Integrated and Verifiable HOI Foundation Systems</h3>
+          <p>No single prior family suffices. A modular system around a shared hand-object state, contact, and trajectory interface, where priors are composed by dominant uncertainty and validated through contact/physics or robot execution.</p>
+        </div>
+      </div>
+      <div class="challenge">
+        <div class="challenge-num">02</div>
+        <div class="challenge-body">
+          <h3>From Geometric Correctness to Interaction Correctness</h3>
+          <p>Current benchmarks are dominated by geometric metrics. Future evaluation should integrate contact agreement, functional success, physical plausibility, and object-state transition fidelity under a common protocol.</p>
+        </div>
+      </div>
+      <div class="challenge">
+        <div class="challenge-num">03</div>
+        <div class="challenge-body">
+          <h3>Long-Horizon, Dynamic-Camera, World-Space HOI</h3>
+          <p>Jointly recovering camera ego-motion, long-horizon hand-object state, and contact in a unified world frame across grasp, manipulation, release, and re-grasp phases remains open.</p>
+        </div>
+      </div>
+      <div class="challenge">
+        <div class="challenge-num">04</div>
+        <div class="challenge-body">
+          <h3>Prior Reliability, Routing, and Conflict Resolution</h3>
+          <p>Estimate prior confidence, route priors by occlusion, visibility, camera motion, and intent, and expose conflicts rather than silently averaging incompatible signals.</p>
+        </div>
+      </div>
+      <div class="challenge">
+        <div class="challenge-num">05</div>
+        <div class="challenge-body">
+          <h3>From HOI Analysis to Dynamic Embodied Memory</h3>
+          <p>Store HOI-derived variables in a queryable dynamic memory that persists across occluded manipulation phases and reconciles pre-grasp estimates with subsequent interaction evidence.</p>
+        </div>
+      </div>
+      <div class="challenge">
+        <div class="challenge-num">06</div>
+        <div class="challenge-body">
+          <h3>Robot-Centric Understanding of Human HOI</h3>
+          <p>Infer richer, robot-usable descriptions of human HOI, including object/part identity, interaction phase, contact, intent, and intended object-state change, beyond raw trajectory transfer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BibTeX -->
+<section id="bibtex" class="section section-alt">
+  <div class="container">
+    <h2>BibTeX</h2>
+    <div class="bibtex-wrap">
+      <button class="copy-btn" onclick="copyBibtex()">Copy</button>
+      <pre id="bibtex-text">@article{lin2026hoi,
+  title   = {Hand-Object Interaction in the Age of Large Foundation Models: Reconstruction, Generation, and Embodied Transfer},
+  author  = {Weiquan Lin and Yu Deng and Shiyang Liu and Luping Xiao and Xu Tang and Junzhi Yu and Jiaolong Yang and Lei Zhang and Xingyu Chen},
+  journal = {arXiv preprint arXiv:2605.17354},
+  year    = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://arxiv.org/abs/2605.17354">arXiv</a>
+      <a href="https://github.com/SeanChenxy/Hand3DResearch/tree/hoi-survey">GitHub</a>
+    </div>
+    <p class="footer-credit">Template adapted from Nerfies. © 2026 ZGCA-HMI-Lab.</p>
+  </div>
+</footer>
+
+<script>
+function copyBibtex() {
+  const text = document.getElementById('bibtex-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.innerText = 'Copied!';
+    setTimeout(() => btn.innerText = 'Copy', 1500);
+  });
+}
+</script>
+</body>
+</html>
