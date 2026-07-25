@@ -14,6 +14,7 @@
     <div class="nav-links">
       <a href="#abstract">Abstract</a>
       <a href="#contributions">Contributions</a>
+      <a href="#roadmap">Roadmap</a>
       <a href="#taxonomy">Taxonomy</a>
       <a href="#embodied">Embodied Transfer</a>
       <a href="#challenges">Challenges</a>
@@ -31,7 +32,7 @@
       <a href="https://scholar.google.com/citations?user=Fgs4GbgAAAAJ&hl=zh-CN">Weiquan Lin</a><sup>1,2</sup> &nbsp;
       <a href="https://yudeng.github.io/">Yu Deng</a><sup>3</sup> &nbsp;
       <a href="https://scholar.google.com.hk/citations?user=a0sN8ZoAAAAJ&hl=zh-CN">Shiyang Liu</a><sup>2</sup> &nbsp;
-      <span class="author-plain">Luping Xiao<sup>2</sup></span> &nbsp;
+      <a href="https://scholar.google.com/citations?user=Gg87SWwAAAAJ&hl=zh-CN">Luping Xiao</a><sup>2</sup> &nbsp;
       <a href="https://scholar.google.com/citations?hl=zh-CN&user=lmskeBMAAAAJ">Xu Tang</a><sup>1</sup> &nbsp;
       <a href="https://ieeexplore.ieee.org/author/37278401500">Junzhi Yu</a><sup>4</sup> &nbsp;
       <a href="https://jlyang.org/">Jiaolong Yang</a><sup>3</sup> &nbsp;
@@ -51,7 +52,7 @@
     </div>
     <div class="stats">
       <div class="stat"><div class="stat-num">6</div><div class="stat-label">HOI Tasks</div></div>
-      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Prior Families</div></div>
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Foundation Model Priors</div></div>
       <div class="stat"><div class="stat-num">3</div><div class="stat-label">Embodied Transfer Directions</div></div>
       <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Methods Surveyed</div></div>
       <div class="stat"><div class="stat-num">20</div><div class="stat-label">Human-Video Datasets</div></div>
@@ -99,6 +100,20 @@
   </div>
 </section>
 
+<!-- Taxonomy Roadmap -->
+<section id="roadmap" class="section section-alt">
+  <div class="container">
+    <h2>Taxonomy Roadmap</h2>
+    <p class="section-intro">
+      The roadmap below maps the seven sub-priors across three foundation-model families to the six HOI reconstruction and generation tasks reviewed in each subsection. It serves as a navigational guide: for any task, it indicates which prior family and sub-prior sections to consult, and for any prior, it shows which tasks it supports.
+    </p>
+    <figure class="figure-main">
+      <img src="images/priors-sections-tasks-hmi.png" alt="Taxonomy roadmap">
+      <figcaption>Taxonomy roadmap: three prior families decomposed into seven sub-priors and linked to HOI reconstruction and generation tasks.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <!-- Taxonomy -->
 <section id="taxonomy" class="section">
   <div class="container">
@@ -106,10 +121,6 @@
     <p class="section-intro">
       We organize foundation-model knowledge into three families, <strong>geometric</strong>, <strong>semantic</strong>, and <strong>visual</strong> priors, each addressing a distinct class of HOI uncertainty. These priors do not redefine the HOI task; they inject cross-domain knowledge at different stages of a shared hand-object pipeline.
     </p>
-    <figure class="figure-main">
-      <img src="images/priors-sections-tasks-hmi.png" alt="Taxonomy roadmap">
-      <figcaption>Taxonomy roadmap: three prior families decomposed into sub-priors and linked to HOI reconstruction and generation tasks.</figcaption>
-    </figure>
 
     <div class="cards cards-prior">
       <div class="card card-geo">
