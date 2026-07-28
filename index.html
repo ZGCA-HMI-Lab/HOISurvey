@@ -52,7 +52,9 @@
     </div>
     <div class="stats">
       <div class="stat"><div class="stat-num">6</div><div class="stat-label">HOI Tasks</div></div>
-      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Foundation Model Priors</div></div>
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">Foundation-Model Sub-Priors</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Prior Families</div></div>
+      <div class="stat"><div class="stat-num">16</div><div class="stat-label">Prior–Task Combinations</div></div>
       <div class="stat"><div class="stat-num">3</div><div class="stat-label">Embodied Transfer Directions</div></div>
       <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Methods Surveyed</div></div>
       <div class="stat"><div class="stat-num">20</div><div class="stat-label">Human-Video Datasets</div></div>
@@ -67,11 +69,11 @@
   <div class="container">
     <h2>Abstract</h2>
     <p class="abstract-text">
-      Hand-object interaction (HOI) modeling remains challenging because it requires joint reasoning about geometry, appearance, and dynamics under visual uncertainty. Foundation models introduce transferable prior knowledge learned from large-scale cross-domain data, offering new ways to address these challenges beyond task-specific data and models. However, the rapidly growing literature remains fragmented, and existing studies typically describe these methods simply as "using large models" without systematically characterizing what knowledge is introduced, where it enters the HOI pipeline, or how it benefits different HOI tasks. This survey presents the first systematic review of prior-driven HOI in the foundation-model era. We establish a general taxonomy of foundation-model knowledge consisting of geometric, semantic, and visual priors, and systematically analyze how different priors are represented, injected, and adapted across HOI pipelines and tasks. Beyond how foundation models empower HOI, we further examine how HOI-derived knowledge is used in robot learning. Finally, we summarize existing benchmarks and evaluation protocols, and discuss the limitations and future directions toward general-purpose HOI foundation systems.
+      Hand-object interaction (HOI) modeling remains challenging because it requires joint reasoning about hand articulation, object geometry, contact, semantics, and dynamics under severe visual uncertainty. Foundation models introduce transferable prior knowledge learned from large-scale cross-domain data, offering new ways to address these challenges beyond task-specific data and models. However, the rapidly growing literature remains fragmented, and existing studies typically describe these methods simply as “using large models” without systematically characterizing what knowledge is introduced, where it enters the HOI pipeline, or which HOI uncertainty it helps reduce. This survey presents the first systematic review of foundation-model priors for HOI. We organize the literature into six HOI tasks spanning reconstruction and generation. More importantly, we establish a taxonomy of eight foundation-model sub-priors grouped into geometric, semantic, and visual families. Geometric priors encompass shape retrieval, shape reconstruction, and spatial reconstruction; semantic priors include semantic grounding and language reasoning; and visual priors cover visual representation, image generation, and video generation. Based on this taxonomy, we systematically analyze how different priors are represented, injected, and adapted across HOI pipelines and tasks. Beyond how foundation models empower HOI, we further examine how HOI-derived knowledge is used in robot learning, including human-data pretraining, human-to-robot skill transfer, and HOI-to-robot data generation. Finally, we summarize datasets and evaluation protocols, and discuss limitations and future directions toward more generalizable HOI systems. To support long-term progress, we curate a live repository that continuously aggregates emerging methods and benchmarks.
     </p>
     <figure class="figure-teaser">
       <img src="images/teaser.png" alt="Teaser overview">
-      <figcaption>Overview of this survey. Six HOI tasks (reconstruction & generation) are supported by three families of foundation-model priors. The resulting HOI knowledge further enables embodied transfer.</figcaption>
+      <figcaption>Overview of this survey. Six HOI tasks (reconstruction and generation) are supported by eight foundation-model sub-priors in three families: geometric (shape retrieval, shape reconstruction, spatial reconstruction), semantic (semantic grounding, language reasoning), and visual (visual representation, image generation, video generation). The resulting HOI knowledge further enables embodied transfer through human-data pretraining, human-to-robot skill transfer, and HOI-to-robot data generation.</figcaption>
     </figure>
   </div>
 </section>
@@ -84,12 +86,12 @@
       <div class="card">
         <div class="card-label">TAXONOMY</div>
         <h3>Prior-Driven Knowledge Taxonomy</h3>
-        <p>The first unified framework that organizes HOI methods by the <em>type of foundation-model prior</em> they inject, geometric, semantic, and visual, rather than by task or architecture, revealing what cross-domain knowledge is introduced and which uncertainty it reduces.</p>
+        <p>The first unified framework that organizes HOI methods by the <em>type of foundation-model prior</em> they inject—eight sub-priors under geometric, semantic, and visual families—rather than by task or architecture alone, revealing what cross-domain knowledge is introduced and which uncertainty it reduces.</p>
       </div>
       <div class="card">
         <div class="card-label">ANALYSIS</div>
         <h3>Prior Injection Mechanisms</h3>
-        <p>A systematic decomposition of how priors enter the HOI pipeline, through shape initialization, asset retrieval, token fusion, region conditioning, interaction-semantic conditioning, and weight adaptation, tracing the source, injected representation, and residual limitation of each.</p>
+        <p>A systematic decomposition of how priors enter the HOI pipeline—through asset retrieval, shape initialization and regularization, scale alignment and registration, token fusion, region conditioning, interaction-semantic conditioning, adapter/ControlNet conditioning, and score-guided regularization—tracing the source, injected representation, and residual limitation of each.</p>
       </div>
       <div class="card">
         <div class="card-label">TRANSFER</div>
@@ -101,44 +103,44 @@
 </section>
 
 <!-- Taxonomy Roadmap -->
-<section id="roadmap" class="section section-alt">
+<section id="roadmap" class="section">
   <div class="container">
     <h2>Taxonomy Roadmap</h2>
     <p class="section-intro">
-      The roadmap below maps the seven sub-priors across three foundation-model families to the six HOI reconstruction and generation tasks reviewed in each subsection. It serves as a navigational guide: for any task, it indicates which prior family and sub-prior sections to consult, and for any prior, it shows which tasks it supports.
+      The roadmap below maps the <strong>eight</strong> foundation-model sub-priors across three families to the six HOI reconstruction and generation tasks reviewed in each subsection. It serves as a navigational guide: for any task, it indicates which prior family and sub-prior sections to consult, and for any prior, it shows which tasks it supports.
     </p>
     <figure class="figure-main">
       <img src="images/priors-sections-tasks-hmi.png" alt="Taxonomy roadmap">
-      <figcaption>Taxonomy roadmap: three prior families decomposed into seven sub-priors and linked to HOI reconstruction and generation tasks.</figcaption>
+      <figcaption>Taxonomy roadmap: three prior families decomposed into eight sub-priors and linked to HOI reconstruction and generation tasks.</figcaption>
     </figure>
   </div>
 </section>
 
 <!-- Taxonomy -->
-<section id="taxonomy" class="section">
+<section id="taxonomy" class="section section-alt">
   <div class="container">
     <h2>A Taxonomy of Foundation-Model Priors</h2>
     <p class="section-intro">
-      We organize foundation-model knowledge into three families, <strong>geometric</strong>, <strong>semantic</strong>, and <strong>visual</strong> priors, each addressing a distinct class of HOI uncertainty. These priors do not redefine the HOI task; they inject cross-domain knowledge at different stages of a shared hand-object pipeline.
+      We organize foundation-model knowledge into three families—<strong>geometric</strong>, <strong>semantic</strong>, and <strong>visual</strong>—with eight sub-priors that each address a distinct class of HOI uncertainty. These priors do not redefine the HOI task; they inject cross-domain knowledge at different stages of a shared hand-object pipeline.
     </p>
 
     <div class="cards cards-prior">
       <div class="card card-geo">
         <div class="card-label">GEOMETRIC PRIORS</div>
-        <h3>Shape · Retrieval · Spatial</h3>
-        <p>Reduce shape and spatial uncertainty via single-image-to-3D generation, asset retrieval from 3D libraries, and monocular spatial reconstruction (depth, point maps, camera alignment).</p>
+        <h3>Shape Retrieval · Shape Reconstruction · Spatial Reconstruction</h3>
+        <p>Reduce shape and spatial uncertainty via asset retrieval from 3D libraries, single-image-to-3D generation for occluded geometry, and monocular spatial reconstruction (depth, point maps, camera alignment).</p>
         <img src="images/3d-geometry-priors-inject.png" alt="Geometric priors injection">
       </div>
       <div class="card card-sem">
         <div class="card-label">SEMANTIC PRIORS</div>
-        <h3>Grounding · Language Reasoning</h3>
+        <h3>Semantic Grounding · Language Reasoning</h3>
         <p>Localize functional regions and infer interaction intent through open-vocabulary grounding and language reasoning, distinguishing visually similar but functionally different manipulations.</p>
         <img src="images/semantic-priors-inject.png" alt="Semantic priors injection">
       </div>
       <div class="card card-vis">
         <div class="card-label">VISUAL PRIORS</div>
-        <h3>Image · Video Generation</h3>
-        <p>Provide distributions over appearance, temporal coherence, and interaction dynamics via pretrained image and video generators, extending toward action-conditioned HOI world models.</p>
+        <h3>Visual Representation · Image Generation · Video Generation</h3>
+        <p>Transfer reusable visual features and model distributions over appearance, temporal coherence, and interaction dynamics via general-purpose visual encoders and pretrained image/video generators, extending toward action-conditioned HOI world models.</p>
         <img src="images/visual-motion-generation-priors-inject.png" alt="Visual priors injection">
       </div>
     </div>
@@ -155,7 +157,7 @@
   <div class="container">
     <h2>From HOI to Embodied Intelligence</h2>
     <p class="section-intro">
-      Beyond reconstruction and generation, we examine how HOI-derived knowledge transfers to robot learning along three directions: <strong>human-data pretraining</strong>, <strong>human-to-robot skill transfer</strong>, and <strong>HOI-to-robot data engines</strong>.
+      Beyond reconstruction and generation, we examine how HOI-derived knowledge transfers to robot learning along three directions: <strong>human-data pretraining</strong>, <strong>human-to-robot skill transfer</strong>, and <strong>HOI-to-robot data engines</strong>. These directions further specialize into five concrete transfer routes for supervision, target-skill guidance, and reusable robot training data.
     </p>
     <figure class="figure-main">
       <img src="images/HOI-for-robot.png" alt="Embodied transfer routes">
@@ -237,6 +239,7 @@
     <div class="footer-links">
       <a href="https://arxiv.org/abs/2605.17354">arXiv</a>
       <a href="https://github.com/SeanChenxy/Hand3DResearch/tree/hoi-survey">GitHub</a>
+      <a href="https://zgca-hmi-lab.github.io/HOISurvey/">Project Page</a>
     </div>
     <p class="footer-credit">Template adapted from Nerfies. © 2026 ZGCA-HMI-Lab.</p>
   </div>
